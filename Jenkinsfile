@@ -29,7 +29,7 @@ pipeline {
             }
             steps{
                 sh '''
-                -f 'build/html.*'
+                -f 'build/index.html'
                 '''
             }
         }
