@@ -31,7 +31,7 @@ pipeline{
             }
             steps{
                 sh '''
-                [-f 'build/index.html'] && echo "file exist" || echo "file does not exist"
+                -f ['build/index.html'] && echo "file exists" || echo "file does not exist"
                 '''
             }
         }
