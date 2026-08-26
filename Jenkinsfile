@@ -1,8 +1,8 @@
-pipeline{
+pipeline {
     agent any
 
     stages{
-        stage{('Build') {
+        stage ('Build') {
             agent {
                 docker{
                     image 'node:18-alpine'
@@ -18,8 +18,8 @@ pipeline{
                 npm run build
                 ls -la
                  '''
+                }
             }
-        }
 
         }
         stage ('test'){
@@ -31,7 +31,7 @@ pipeline{
             }
             steps{
                 sh '''
-                -f ['build/index.html'] && echo "file exists" || echo "file does not exist"
+                [-f 'build/index.html'] && echo "file exists" || echo "file does not exist"
                 '''
             }
         }
