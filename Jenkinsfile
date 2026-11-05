@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:20-alpine'
                     reuseNode true
                 }
             }
@@ -23,14 +23,14 @@ pipeline {
         stage ('Test'){
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:20-alpine'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
                     test -f 'build/index.html'
-                    npm test
+                    CI=true npm test -- --watchAll=false
                 '''
             }
         }
@@ -43,10 +43,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    npm install serve
-                    sleep 10
-                    node_modules/.bin/serve -s build &
-                    sleep 10
+                    npm install --no-save serve
                     npx playwright test
                 '''
             }
@@ -54,7 +51,7 @@ pipeline {
     }
     post{
         always {
-            junit 'test=results.xml'
+            junit testResults: 'test-results/*.xml', allowEmptyResults: true
         }
     }
 }
