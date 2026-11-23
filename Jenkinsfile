@@ -51,6 +51,20 @@ pipeline {
             }
         }
     }
+            stage('Deploy') {
+            agent {
+                docker {
+                    image 'node:20-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm install -g netlify-cli -g
+                    netlify --version
+                '''
+            }
+        }
     post{
         always {
             junit 'jest-results/junit.xml'
